@@ -1,6 +1,6 @@
 
 
-import API_KEY from "./apikey.js";
+import api_key from "./apikey.js";
 const userInput = document.querySelector("#user-input");
 const sendButton = document.querySelector("#send-button");
 const chatbox = document.querySelector(".chat-body");
@@ -28,7 +28,7 @@ const formatText = (text) => {
 
 const generateResponse = async (incomingChat,userMessage) => {
    
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`;
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${api_key}`;
     const messageElement = incomingChat.querySelector("p");
 
     const requestOptions = {
