@@ -1,6 +1,4 @@
 
-
-import api_key from "./apikey.js";
 const userInput = document.querySelector("#user-input");
 const sendButton = document.querySelector("#send-button");
 const chatbox = document.querySelector(".chat-body");
@@ -26,30 +24,21 @@ const formatText = (text) => {
 };
 
 
-const generateResponse = async (incomingChat,userMessage) => {
-   
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${api_key}`;
+const generateResponse = async (incomingChat, userMessage) => {
     const messageElement = incomingChat.querySelector("p");
 
-    const requestOptions = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            "contents": [{
-                "role": "user",
-                "parts": [{ "text": userMessage }]
-            }]
-        }),
-    };
-
     try {
-        const response = await fetch(API_URL, requestOptions);
+        const response = await fetch("/api/getData", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userMessage }),
+        });
+
         const data = await response.json();
         console.log("API Response:", data); // Log response for debugging
-        
-        
+
         const botResponse = data.candidates[0]?.content?.parts[0]?.text || "No response";
         const formattedResponse = formatText(botResponse);
 
@@ -58,7 +47,6 @@ const generateResponse = async (incomingChat,userMessage) => {
         console.error("Error:", error);
         messageElement.textContent = "Oops! Something went wrong. Please try again.";
     }
-
 };
 
 const displayChat = () => {
